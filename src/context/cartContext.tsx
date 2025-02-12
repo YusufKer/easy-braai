@@ -1,11 +1,28 @@
 import { createContext, useState, useContext } from "react";
+import { PlateItem } from "../components/BuildYourPlate/PlateBuilder";
 
-const CartContext = createContext({ cart: [], addToCart: (cartItem) => {} });
+type CartContextType = {
+  cart: CartItem[];
+  addToCart: (cartOItem: CartItem) => void;
+};
 
-export default function CartProvider({ children }) {
-  const [cart, setCart] = useState<any[]>([]);
+export type CartItem = {
+  id: string;
+  plate: PlateItem[];
+  numberOfPlates: number;
+  total: number;
+};
 
-  function addToCart(cartItem: any) {
+type CartProviderProps = {
+  children: React.ReactNode;
+};
+
+const CartContext = createContext<CartContextType | null>(null);
+
+export default function CartProvider({ children }: CartProviderProps) {
+  const [cart, setCart] = useState<CartItem[]>([]);
+
+  function addToCart(cartItem: CartItem) {
     setCart((prevCart) => [...prevCart, cartItem]);
   }
 
