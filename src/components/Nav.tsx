@@ -1,16 +1,19 @@
-import { NavLink, Link } from "react-router"
+import NavItem from "./NavLink.tsx";
+import { useCart } from "../context/cartContext.tsx";
 
-export default function Nav(){
+export default function Nav() {
+  const cartStore = useCart();
   return (
     <div className="bg-red-400">
       <ul className="flex gap-4 container mx-auto p-4 bg-red-300">
-        <li className="flex-1"><NavLink to="/" className={({isActive}) => isActive ? activeClass : inactiveClass}>Home</NavLink></li>
-        <li><NavLink to="/build-your-plate" className={({isActive}) => isActive ? activeClass : inactiveClass}>Build your plate</NavLink></li>
-        <li><NavLink to="/cart" className={({isActive}) => isActive ? activeClass : inactiveClass}>Cart</NavLink></li>   
-    </ul>
+        <NavItem flexOne to="/">
+          Home
+        </NavItem>
+        <NavItem to="/build-your-plate">Build Your Plate</NavItem>
+        <NavItem to="/cart">
+          Cart <span>{cartStore.cart.length}</span>
+        </NavItem>
+      </ul>
     </div>
-  )
+  );
 }
-
-const activeClass = 'bg-red-600'
-const inactiveClass = 'bg-red-400'

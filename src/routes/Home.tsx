@@ -9,9 +9,8 @@ export default function Home(){
   }
   return (
     <>
-      <h1>Working...</h1>
-      <p>Count: {cart.count}</p>
-      <button onClick={handleClick}>Increment</button>
+      <h1>Welcome to Easy Braai</h1>
+      <p>Where we take the work and leave you with the fun.</p>
     </>
   )
 }
