@@ -13,21 +13,28 @@ export default function AddPlateToCart({
 }: AddPlateToCartProps) {
   const cartStore = useCart();
   const [numberOfPlates, setNumberOfPlates] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    if (isNaN(parseInt(e.target.value))) return setNumberOfPlates(0);
     setNumberOfPlates(parseInt(e.target.value));
   }
 
   function addToCart() {
     if (plate.length === 0) return;
-    cartStore?.addToCart({
-      id: crypto.randomUUID(),
-      plate,
-      numberOfPlates,
-      total: plate.reduce((acc, item) => acc + item.price, 0) * numberOfPlates,
-    });
-    clearPlate();
-    setNumberOfPlates(1);
+    setLoading(true);
+    setTimeout(() => {
+      cartStore?.addToCart({
+        id: crypto.randomUUID(),
+        plate,
+        numberOfPlates,
+        total:
+          plate.reduce((acc, item) => acc + item.price, 0) * numberOfPlates,
+      });
+      clearPlate();
+      setNumberOfPlates(1);
+      setLoading(false);
+    }, 1500);
   }
 
   return (
@@ -46,6 +53,7 @@ export default function AddPlateToCart({
             id="number-of-plates"
             className="bg-white"
             onChange={handleChange}
+            defaultValue="1"
           />
         </div>
         <h2 className="col-span-2">
@@ -55,7 +63,8 @@ export default function AddPlateToCart({
       </div>
       <button
         onClick={addToCart}
-        className="bg-green-400 rounded px-4 py-2 h-min col-span-4 md:col-span-1"
+        className="bg-green-400 rounded px-4 py-2 h-min col-span-4 md:col-span-1 disabled:bg-gray-400"
+        disabled={loading}
       >
         Add To Cart
       </button>

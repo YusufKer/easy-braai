@@ -27,10 +27,10 @@ export default function PlateBuilder() {
   }
 
   return (
-    <div className="bg-neutral-100 p-4">
-      <AddToPlate addToPlate={addToPlate} />
+    <>
       <PlateTable plate={plate} handleDelete={handleDelete} />
+      <AddToPlate addToPlate={addToPlate} />
       <AddPlateToCart plate={plate} clearPlate={clearPlate} />
-    </div>
+    </>
   );
 }

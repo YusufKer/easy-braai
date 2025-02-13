@@ -5,7 +5,7 @@ export default function Nav() {
   const cartStore = useCart();
   return (
     <div className="bg-red-400">
-      <ul className="flex gap-4 container mx-auto p-4 bg-red-300">
+      <ul className="flex gap-4 container mx-auto p-4 bg-red-300 w-full">
         <NavItem flexOne to="/">
           Home
         </NavItem>

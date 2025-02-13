@@ -1,11 +1,4 @@
-import { useCart } from "../context/cartContext.tsx";
-
 export default function Home() {
-  const cartStore = useCart();
-
-  function handleClick() {
-    console.log(cartStore?.cart);
-  }
   return (
     <div className="space-y-4">
       <h1>Effortless Braais, Unforgettable Flavor</h1>

@@ -34,7 +34,7 @@ export default function AddToPlate({ addToPlate }: AddToPlateProps) {
   }
 
   return (
-    <div className="bg-neutral-500">
+    <div className="bg-neutral-100">
       <div className="grid gap-2 md:gap-4 md:grid-cols-5 p-4 items-center">
         <select onChange={handleChangeMeat} className="w-full">
           {meats.map((option) => (

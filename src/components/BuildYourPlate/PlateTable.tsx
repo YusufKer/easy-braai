@@ -11,12 +11,11 @@ export default function PlateTable({ plate, handleDelete }: PlateTableProps) {
       {plate.map((item) => (
         <div
           key={item.id}
-          className="p-4 grid gap-2 md:gap-4 md:grid-cols-5 even:bg-neutral-50 items-center"
+          className="px-4 py-2 grid gap-2 md:gap-4 grid-cols-[1fr_auto] even:bg-neutral-50 items-center"
         >
-          <div>{item.meat}</div>
-          <div>{item.cut}</div>
-          <div>{item.flavour}</div>
-          <div>R{item.price}</div>
+          <div>
+            {item.meat} ({item.cut}) ({item.flavour}) R{item.price}
+          </div>
           <button
             onClick={() => handleDelete(item.id)}
             className="bg-red-400 rounded px-4 py-2"
