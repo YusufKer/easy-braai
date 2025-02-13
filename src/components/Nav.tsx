@@ -11,7 +11,7 @@ export default function Nav() {
         </NavItem>
         <NavItem to="/build-your-plate">Build Your Plate</NavItem>
         <NavItem to="/cart">
-          Cart <span>{cartStore.cart.length}</span>
+          Cart <span>{cartStore?.cart.length}</span>
         </NavItem>
       </ul>
     </div>

@@ -35,22 +35,22 @@ export default function AddToPlate({ addToPlate }: AddToPlateProps) {
 
   return (
     <div className="bg-neutral-50">
-      <div className="grid gap-4 grid-cols-5 p-4 items-center">
-        <select onChange={handleChangeMeat}>
+      <div className="grid gap-2 md:gap-4 md:grid-cols-5 p-4 items-center">
+        <select onChange={handleChangeMeat} className="w-full">
           {meats.map((option) => (
             <option value={option} key={option}>
               {option}
             </option>
           ))}
         </select>
-        <select ref={cutRef}>
+        <select ref={cutRef} className="w-full">
           {meatOptions[selectedMeat].cuts.map((cut) => (
             <option value={cut.name} key={cut.name}>
               {cut.name} (R{cut.price})
             </option>
           ))}
         </select>
-        <select ref={flavourRef}>
+        <select ref={flavourRef} className="w-full">
           {meatOptions[selectedMeat].flavours.map((flavour) => (
             <option value={flavour.name} key={flavour.name}>
               {flavour.name} (R{flavour.price})

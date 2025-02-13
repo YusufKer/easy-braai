@@ -9,7 +9,7 @@ export default function PlateTable({ plate, handleDelete }: PlateTableProps) {
   return (
     <div className="bg-neutral-200">
       {plate.map((item) => (
-        <div key={item.id} className="p-4 grid gap-4 grid-cols-5">
+        <div key={item.id} className="p-4 grid gap-2 md:gap-4 md:grid-cols-5">
           <div>{item.meat}</div>
           <div>{item.cut}</div>
           <div>{item.flavour}</div>
