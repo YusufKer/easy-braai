@@ -55,7 +55,7 @@ export default function AddPlateToCart({
       </div>
       <button
         onClick={addToCart}
-        className="bg-green-400 rounded px-4 py-2 h-min col-span-4"
+        className="bg-green-400 rounded px-4 py-2 h-min col-span-4 md:col-span-1"
       >
         Add To Cart
       </button>
