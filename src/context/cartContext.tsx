@@ -1,5 +1,5 @@
 import { createContext, useState, useContext } from "react";
-import { PlateItem } from "../components/BuildYourPlate/PlateBuilder";
+import { PlateItem } from "../components/BuildAPlate/PlateBuilder";
 
 type CartContextType = {
   cart: CartItem[];

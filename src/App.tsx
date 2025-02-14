@@ -9,15 +9,17 @@ import Footer from "./components/Footer.tsx";
 export default function App() {
   return (
     <CartProvider>
-      <Nav />
-      <div className="bg-blue-400 container mx-auto p-4">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/build-your-plate" element={<BuildYourPlate />} />
-          <Route path="/cart" element={<Cart />} />
-        </Routes>
+      <div className="bg-[#FEFAE0]">
+        <Nav />
+        <div className="container mx-auto p-4 bg-[#FFCF50]">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/build-your-plate" element={<BuildYourPlate />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </CartProvider>
   );
 }

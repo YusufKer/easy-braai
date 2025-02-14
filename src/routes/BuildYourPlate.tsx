@@ -1,9 +1,10 @@
-import PlateBuilder from "../components/BuildYourPlate/PlateBuilder.tsx";
+import PlateBuilder from "../components/BuildAPlate/PlateBuilder.tsx";
+import Heading from "../components/Heading.tsx";
 
 export default function BuildYourPlate() {
   return (
     <div className="space-y-4">
-      <h1>Build Your Perfect Braai Plate</h1>
+      <Heading headingType="main">Build Your Perfect Braai Plate</Heading>
 
       <p>
         Customize your braai experience with{" "}

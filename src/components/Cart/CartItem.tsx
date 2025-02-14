@@ -1,5 +1,6 @@
 import { CartItem } from "../../context/cartContext";
 import { useCart } from "../../context/cartContext";
+import Button from "../Button";
 
 type CartItemProps = {
   cartItem: CartItem;
@@ -8,10 +9,6 @@ type CartItemProps = {
 
 export default function CartItemCard({ cartItem, cartItemID }: CartItemProps) {
   const cartStore = useCart();
-
-  function deleteItemFromPlate(cartItemID: string, lineItemID: string) {
-    cartStore?.deleteItemFromPlate(cartItemID, lineItemID);
-  }
 
   function deletePlateFromCart(cartItemID: string) {
     cartStore?.deletePlateFromCart(cartItemID);
@@ -22,20 +19,11 @@ export default function CartItemCard({ cartItem, cartItemID }: CartItemProps) {
       {cartItem.plate.map((lineItem) => (
         <div key={lineItem.id} className="px-4 py-2 flex justify-between">
           <div className="flex gap-4 items-center">
-            <div>{lineItem.meat}</div>
-            <div>{lineItem.cut}</div>
-            <div>{lineItem.flavour}</div>
+            <div>
+              {lineItem.meat} ({lineItem.cut}) ({lineItem.flavour})
+            </div>
           </div>
-          {cartItem.plate.length > 1 ? (
-            <button
-              onClick={() => deleteItemFromPlate(cartItemID, lineItem.id)}
-              className="bg-red-400 rounded px-4 py-2"
-            >
-              Delete
-            </button>
-          ) : (
-            <div>R{lineItem.price}</div>
-          )}
+          <div>R{lineItem.price}</div>
         </div>
       ))}
       <div className="flex justify-between px-4 py-2 border-t border-gray-200">
@@ -45,13 +33,16 @@ export default function CartItemCard({ cartItem, cartItemID }: CartItemProps) {
         </p>
         <div>Total: R{cartItem.total}</div>
       </div>
-      <div className="p-2 px-4">
-        <button
-          onClick={() => deletePlateFromCart(cartItemID)}
-          className="bg-red-400 rounded px-4 py-2"
+      <div className="p-2 px-4 flex gap-2">
+        <Button type="warning" handleClick={() => {}}>
+          Edit Plate
+        </Button>
+        <Button
+          handleClick={() => deletePlateFromCart(cartItemID)}
+          type="danger"
         >
           Delete Plate
-        </button>
+        </Button>
       </div>
     </div>
   );

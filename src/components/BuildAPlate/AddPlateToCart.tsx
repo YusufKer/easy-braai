@@ -1,6 +1,7 @@
 import { PlateItem } from "./PlateBuilder";
 import { ChangeEvent, useState } from "react";
 import { useCart } from "../../context/cartContext";
+import Button from "../Button";
 
 type AddPlateToCartProps = {
   plate: PlateItem[];
@@ -61,13 +62,14 @@ export default function AddPlateToCart({
           {plate.reduce((acc, item) => acc + item.price, 0) * numberOfPlates}
         </h2>
       </div>
-      <button
-        onClick={addToCart}
-        className="bg-green-400 rounded px-4 py-2 h-min col-span-4 md:col-span-1 disabled:bg-gray-400"
+      <Button
+        handleClick={addToCart}
+        type="success"
+        classList="h-min col-span-4 md:col-span-1"
         disabled={loading}
       >
         Add To Cart
-      </button>
+      </Button>
     </div>
   );
 }

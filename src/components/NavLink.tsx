@@ -23,5 +23,5 @@ export default function NavItem({
   );
 }
 
-const activeClass = "bg-red-600 px-4 py-2";
-const inactiveClass = "bg-red-400 px-4 py-2";
+const activeClass = "decoration-[#626F47] underline";
+const inactiveClass = "";

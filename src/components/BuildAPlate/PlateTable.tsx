@@ -1,3 +1,4 @@
+import Button from "../Button";
 import { PlateItem } from "./PlateBuilder";
 
 type PlateTableProps = {
@@ -16,12 +17,9 @@ export default function PlateTable({ plate, handleDelete }: PlateTableProps) {
           <div>
             {item.meat} ({item.cut}) ({item.flavour}) R{item.price}
           </div>
-          <button
-            onClick={() => handleDelete(item.id)}
-            className="bg-red-400 rounded px-4 py-2"
-          >
+          <Button type="danger" handleClick={() => handleDelete(item.id)}>
             Delete
-          </button>
+          </Button>
         </div>
       ))}
     </div>

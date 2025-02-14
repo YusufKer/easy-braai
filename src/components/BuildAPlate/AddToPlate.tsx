@@ -1,5 +1,6 @@
 import { ChangeEvent, useState, useRef } from "react";
 import { PlateItem } from "./PlateBuilder";
+import Button from "../Button";
 
 type AddToPlateProps = {
   addToPlate: (plateItem: PlateItem) => void;
@@ -36,21 +37,24 @@ export default function AddToPlate({ addToPlate }: AddToPlateProps) {
   return (
     <div className="bg-neutral-100">
       <div className="grid gap-2 md:gap-4 md:grid-cols-5 p-4 items-center">
-        <select onChange={handleChangeMeat} className="w-full">
+        <select
+          onChange={handleChangeMeat}
+          className="w-full px-4 py-2 border rounded"
+        >
           {meats.map((option) => (
             <option value={option} key={option}>
               {option}
             </option>
           ))}
         </select>
-        <select ref={cutRef} className="w-full">
+        <select ref={cutRef} className="w-full px-4 py-2 border rounded">
           {meatOptions[selectedMeat].cuts.map((cut) => (
             <option value={cut.name} key={cut.name}>
               {cut.name} (R{cut.price})
             </option>
           ))}
         </select>
-        <select ref={flavourRef} className="w-full">
+        <select ref={flavourRef} className="w-full px-4 py-2 border rounded">
           {meatOptions[selectedMeat].flavours.map((flavour) => (
             <option value={flavour.name} key={flavour.name}>
               {flavour.name} (R{flavour.price})
@@ -58,9 +62,13 @@ export default function AddToPlate({ addToPlate }: AddToPlateProps) {
           ))}
         </select>
         <div></div>
-        <button className="bg-blue-400 rounded px-4 py-2" onClick={handleClick}>
+        <Button
+          type="info"
+          classList="bg-blue-400 rounded px-4 py-2"
+          handleClick={handleClick}
+        >
           Add to plate
-        </button>
+        </Button>
       </div>
     </div>
   );
