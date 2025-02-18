@@ -7,7 +7,9 @@ export type PlateItem = {
   id: string;
   meat: string;
   cut: string;
+  cutID: string;
   flavour: string;
+  flavourID: string;
   price: number;
 };
 

@@ -31,11 +31,24 @@ export default function AddToPlate({ addToPlate }: AddToPlateProps) {
     )?.price;
 
     if (!cutPrice || !flavourPrice) return;
+
+    const flavourID = flavourRef.current?.options
+      ? Array.from(flavourRef.current.options).find((option) => option.selected)
+          ?.dataset.id
+      : undefined;
+
+    const cutID = cutRef.current?.options
+      ? Array.from(cutRef.current.options).find((option) => option.selected)
+          ?.dataset.id
+      : undefined;
+
     const meat: PlateItem = {
       id: crypto.randomUUID(),
       meat: selectedMeat as string,
       cut: cutRef.current?.value as string,
+      cutID: cutID as string,
       flavour: flavourRef.current?.value as string,
+      flavourID: flavourID as string,
       // @ts-expect-error
       price: parseInt(cutPrice) + parseInt(flavourPrice),
     };
@@ -62,15 +75,19 @@ export default function AddToPlate({ addToPlate }: AddToPlateProps) {
           </select>
           <select ref={cutRef} className="w-full px-4 py-2 border rounded">
             {meatStore?.meatOptions?.[selectedMeat as Meat]?.cuts.map((cut) => (
-              <option value={cut.name} key={cut.name}>
-                {cut.name} (R{cut.price})
+              <option value={cut.name} key={cut.name} data-id={cut.id}>
+                {cut.name} (R{cut.price})x
               </option>
             ))}
           </select>
           <select ref={flavourRef} className="w-full px-4 py-2 border rounded">
             {meatStore?.meatOptions?.[selectedMeat as Meat]?.flavours.map(
               (flavour) => (
-                <option value={flavour.name} key={flavour.name}>
+                <option
+                  value={flavour.name}
+                  key={flavour.name}
+                  data-id={flavour.id}
+                >
                   {flavour.name} (R{flavour.price})
                 </option>
               )

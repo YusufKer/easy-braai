@@ -9,10 +9,12 @@ type MeatOptions = {
     cuts: {
       name: string;
       price: number;
+      id: string;
     }[];
     flavours: {
       name: string;
       price: number;
+      id: string;
     }[];
   };
 };
@@ -50,8 +52,14 @@ export default function MeatProvider({ children }: MeatProviderProps) {
           return {
             meat,
             data: {
-              cuts: cutsSnapshot.docs.map((doc) => doc.data()),
-              flavours: flavoursSnapshot.docs.map((doc) => doc.data()),
+              cuts: cutsSnapshot.docs.map((doc) => ({
+                ...doc.data(),
+                id: doc.id,
+              })),
+              flavours: flavoursSnapshot.docs.map((doc) => ({
+                ...doc.data(),
+                id: doc.id,
+              })),
             },
           };
         });
@@ -65,6 +73,7 @@ export default function MeatProvider({ children }: MeatProviderProps) {
           {}
         );
 
+        console.log(options);
         setMeatOptions(options);
         setMeats(meatIds);
       } catch (error) {
