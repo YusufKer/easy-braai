@@ -24,7 +24,7 @@ export default function EditCartModal({
   function handleDelete(plateItemID: string) {
     const thePlate = cartStore?.cart?.find(
       (item) => item?.id === cartItem?.id
-    ).plate;
+    )?.plate;
     if (thePlate && thePlate.length === 1) {
       cartStore.deletePlateFromCart(cartItem.id);
       closeModal();
