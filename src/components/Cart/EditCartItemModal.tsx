@@ -22,7 +22,15 @@ export default function EditCartModal({
   }
 
   function handleDelete(plateItemID: string) {
-    cartStore?.deleteItemFromPlateViaCart(cartItem.id, plateItemID);
+    const thePlate = cartStore?.cart?.find(
+      (item) => item?.id === cartItem?.id
+    ).plate;
+    if (thePlate && thePlate.length === 1) {
+      cartStore.deletePlateFromCart(cartItem.id);
+      closeModal();
+    } else {
+      cartStore?.deleteItemFromPlateViaCart(cartItem.id, plateItemID);
+    }
   }
 
   function addToPlate(plateItem: PlateItem) {
