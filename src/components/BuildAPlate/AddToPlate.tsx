@@ -9,7 +9,6 @@ type AddToPlateProps = {
 
 export default function AddToPlate({ addToPlate }: AddToPlateProps) {
   const meatStore = useMeatStore();
-
   const [selectedMeat, setSelectedMeat] = useState<Meat>("beef");
 
   const cutRef = useRef<HTMLSelectElement>(null);
@@ -76,7 +75,7 @@ export default function AddToPlate({ addToPlate }: AddToPlateProps) {
           <select ref={cutRef} className="w-full px-4 py-2 border rounded">
             {meatStore?.meatOptions?.[selectedMeat as Meat]?.cuts.map((cut) => (
               <option value={cut.name} key={cut.name} data-id={cut.id}>
-                {cut.name} (R{cut.price})x
+                {cut.name} (R{cut.price})
               </option>
             ))}
           </select>

@@ -5,6 +5,20 @@ import Heading from "../components/Heading";
 
 export default function Cart() {
   const cartStore = useCartStore();
+
+  function handleCheckout() {
+    const toSend = cartStore?.cart?.map((cartItem) => {
+      // @ts-expect-error
+      const { id, ...newCartItem } = { ...cartItem };
+      newCartItem.plate = cartItem.plate.map((plateItem) => {
+        // @ts-expect-error
+        const { flavour, cut, id, price, ...rest } = plateItem;
+        return rest;
+      });
+      return newCartItem;
+    });
+    console.log(toSend);
+  }
   return (
     <div className="space-y-4">
       <Heading headingType="main">Your cart</Heading>
@@ -17,7 +31,7 @@ export default function Cart() {
       ))}
       <div className="flex justify-between items-center">
         <p>Final Total: {cartStore?.grandTotal}</p>
-        <Button handleClick={() => console.log(cartStore?.cart)} type="success">
+        <Button handleClick={handleCheckout} type="success">
           Checkout
         </Button>
       </div>
