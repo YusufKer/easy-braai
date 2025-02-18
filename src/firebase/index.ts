@@ -19,7 +19,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// @ts-expect-error
 export const db = getFirestore(app);
 // @ts-expect-error
 const analytics = getAnalytics(app);

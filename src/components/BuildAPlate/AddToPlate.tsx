@@ -30,11 +30,13 @@ export default function AddToPlate({ addToPlate }: AddToPlateProps) {
       (flavour) => flavour.name === flavourRef.current?.value
     )?.price;
 
+    if (!cutPrice || !flavourPrice) return;
     const meat: PlateItem = {
       id: crypto.randomUUID(),
       meat: selectedMeat as string,
       cut: cutRef.current?.value as string,
       flavour: flavourRef.current?.value as string,
+      // @ts-expect-error
       price: parseInt(cutPrice) + parseInt(flavourPrice),
     };
 
