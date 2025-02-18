@@ -39,12 +39,12 @@ export default function AddPlateToCart({
   }
 
   return (
-    <div className="grid gap-2 md:gap-4 md:grid-cols-5 p-4 bg-neutral-50 leading-tight">
-      <div className="col-span-4 md:space-y-4 space-y-2">
+    <div className="grid gap-2 md:gap-4 md:grid-cols-5 leading-tight rounded overflow-hidden">
+      <div className="col-span-4 ">
         <h2>
           Plate Total: R{plate.reduce((acc, item) => acc + item.price, 0)}
         </h2>
-        <div className="flex flex-col md:flex-row gap-2 md:gap-4">
+        <div className="flex flex-col md:flex-row gap-2 md:gap-4 items-center">
           <label htmlFor="number-of-plates">
             How many plates would you like to order?
           </label>
@@ -52,7 +52,7 @@ export default function AddPlateToCart({
             type="number"
             min={1}
             id="number-of-plates"
-            className="bg-white"
+            className="bg-white px-4 py-2 rounded"
             onChange={handleChange}
             defaultValue="1"
           />

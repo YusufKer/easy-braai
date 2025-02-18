@@ -4,7 +4,7 @@ import { useCartStore } from "../context/cartStore.tsx";
 export default function Nav() {
   const cartStore = useCartStore();
   return (
-    <div className="bg-[#A4B465]">
+    <div className="bg-black">
       <ul className="flex gap-4 container mx-auto p-4 w-full">
         <NavItem flexOne to="/">
           Home
@@ -13,11 +13,13 @@ export default function Nav() {
         <NavItem to="/cart">
           <span className="flex">
             Cart{" "}
-            <span>
-              <span className="w-4 aspect-square bg-[#626F47] text-xs rounded-full flex items-center justify-center">
-                {cartStore?.cart.length}
+            {cartStore?.cart?.length && cartStore?.cart?.length > 0 ? (
+              <span>
+                <span className="w-4 aspect-square bg-[#f29a00] text-xs rounded-full flex items-center justify-center">
+                  {cartStore?.cart.length}
+                </span>
               </span>
-            </span>
+            ) : null}
           </span>
         </NavItem>
       </ul>

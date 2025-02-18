@@ -15,13 +15,13 @@ export default function Button({
   disabled,
   classList = "",
 }: ButtonProps) {
-  const staticClasses = "disabled:bg-gray-300 cursor-pointer";
+  const staticClasses = "disabled:bg-gray-300 cursor-pointer font-bold";
   const borderRadiusClass = round
-    ? "rounded-full aspect-square w-8"
+    ? "rounded-full aspect-square w-8 leading-0"
     : "px-4 py-2 rounded";
   const dynamicClasses: Record<ButtonProps["type"], string> = {
-    info: "bg-blue-400",
-    danger: "bg-red-400",
+    info: "bg-[#f29a00]",
+    danger: "bg-[#b01218] text-white",
     success: "bg-green-400",
     warning: "bg-yellow-400",
   };

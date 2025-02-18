@@ -10,7 +10,7 @@ import MeatProvider from "./context/meatStore.tsx";
 export default function App() {
   return (
     <CartProvider>
-      <div className="bg-[#FEFAE0]">
+      <div className="bg-[#f29a00]">
         <Nav />
         <div className="container mx-auto p-4 bg-[#FFCF50]">
           <MeatProvider>

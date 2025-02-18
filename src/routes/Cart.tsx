@@ -8,10 +8,9 @@ export default function Cart() {
 
   function handleCheckout() {
     const toSend = cartStore?.cart?.map((cartItem) => {
-      // @ts-expect-error
       const { id, ...newCartItem } = { ...cartItem };
+      // @ts-ignore
       newCartItem.plate = cartItem.plate.map((plateItem) => {
-        // @ts-expect-error
         const { flavour, cut, id, price, ...rest } = plateItem;
         return rest;
       });

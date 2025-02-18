@@ -12,7 +12,11 @@ export default function NavItem({
   flexOne = false,
 }: NavItemProps) {
   return (
-    <li className={flexOne ? "flex-1" : ""}>
+    <li
+      className={
+        flexOne ? "flex-1 text-white font-bold" : "text-white font-bold"
+      }
+    >
       <NavLink
         to={to}
         className={({ isActive }) => (isActive ? activeClass : inactiveClass)}
@@ -23,5 +27,5 @@ export default function NavItem({
   );
 }
 
-const activeClass = "decoration-[#626F47] underline";
+const activeClass = "decoration-[#b01218] underline";
 const inactiveClass = "";

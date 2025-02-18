@@ -8,7 +8,7 @@ type PlateTableProps = {
 
 export default function PlateTable({ plate, handleDelete }: PlateTableProps) {
   return (
-    <div className="bg-neutral-200">
+    <div className="bg-neutral-100 rounded overflow-hidden">
       {plate.map((item) => (
         <div
           key={item.id}

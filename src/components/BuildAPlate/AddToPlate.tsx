@@ -60,43 +60,41 @@ export default function AddToPlate({ addToPlate }: AddToPlateProps) {
   } else {
     return (
       // Todo... move this to be global state that only loads once for the app
-      <div className="bg-neutral-100">
-        <div className="grid gap-2 md:gap-4 md:grid-cols-5 p-4 items-center">
-          <select
-            onChange={handleChangeMeat}
-            className="w-full px-4 py-2 border rounded"
-          >
-            {meatStore?.meats?.map((option) => (
-              <option value={option} key={option}>
-                {option}
+      <div className="grid gap-2 md:gap-4 md:grid-cols-5 items-center">
+        <select
+          onChange={handleChangeMeat}
+          className="w-full px-4 py-2 rounded bg-white"
+        >
+          {meatStore?.meats?.map((option) => (
+            <option value={option} key={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        <select ref={cutRef} className="w-full px-4 py-2 rounded bg-white">
+          {meatStore?.meatOptions?.[selectedMeat as Meat]?.cuts.map((cut) => (
+            <option value={cut.name} key={cut.name} data-id={cut.id}>
+              {cut.name} (R{cut.price})
+            </option>
+          ))}
+        </select>
+        <select ref={flavourRef} className="w-full px-4 py-2 rounded bg-white">
+          {meatStore?.meatOptions?.[selectedMeat as Meat]?.flavours.map(
+            (flavour) => (
+              <option
+                value={flavour.name}
+                key={flavour.name}
+                data-id={flavour.id}
+              >
+                {flavour.name} (R{flavour.price})
               </option>
-            ))}
-          </select>
-          <select ref={cutRef} className="w-full px-4 py-2 border rounded">
-            {meatStore?.meatOptions?.[selectedMeat as Meat]?.cuts.map((cut) => (
-              <option value={cut.name} key={cut.name} data-id={cut.id}>
-                {cut.name} (R{cut.price})
-              </option>
-            ))}
-          </select>
-          <select ref={flavourRef} className="w-full px-4 py-2 border rounded">
-            {meatStore?.meatOptions?.[selectedMeat as Meat]?.flavours.map(
-              (flavour) => (
-                <option
-                  value={flavour.name}
-                  key={flavour.name}
-                  data-id={flavour.id}
-                >
-                  {flavour.name} (R{flavour.price})
-                </option>
-              )
-            )}
-          </select>
-          <div></div>
-          <Button type="info" handleClick={handleClick}>
-            Add to plate
-          </Button>
-        </div>
+            )
+          )}
+        </select>
+        <div></div>
+        <Button type="info" handleClick={handleClick}>
+          Add to plate
+        </Button>
       </div>
     );
   }

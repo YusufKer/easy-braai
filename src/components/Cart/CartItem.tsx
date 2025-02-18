@@ -48,15 +48,16 @@ export default function CartItemCard({ cartItem, cartItemID }: CartItemProps) {
           </p>
           <div>Total: R{cartItem.total}</div>
         </div>
-        <div className="p-2 px-4 flex gap-2">
-          <Button type="warning" handleClick={openModal}>
-            Edit Plate
+        <div className="p-2 px-4 flex gap-2 justify-end">
+          <Button round type="warning" handleClick={openModal}>
+            <i className="fa-solid fa-edit text-xs"></i>
           </Button>
           <Button
+            round
             handleClick={() => deletePlateFromCart(cartItemID)}
             type="danger"
           >
-            Delete Plate
+            <i className="fa-solid fa-trash text-xs"></i>
           </Button>
         </div>
       </div>

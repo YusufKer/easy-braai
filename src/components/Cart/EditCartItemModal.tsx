@@ -43,19 +43,19 @@ export default function EditCartModal({
       className="flex bg-black/35 absolute top-0 left-0 w-full h-full items-center justify-center p-4"
     >
       <div
-        className="bg-white space-y-4 p-4 sm:min-w-[600px]"
+        className="bg-neutral-300 space-y-4 p-4 sm:min-w-[600px] rounded"
         onClick={preventDefault}
       >
         <div className="flex justify-between gap-4 items-center">
           <Heading>Edit plate</Heading>
-          <Button type="warning" handleClick={closeModal}>
-            Close
+          <Button type="warning" handleClick={closeModal} round>
+            <i className="fa-solid fa-close text-xs"></i>
           </Button>
         </div>
         <PlateTable plate={cartItem.plate} handleDelete={handleDelete} />
         <AddToPlate addToPlate={addToPlate} />
-        <div>
-          Number of plates{" "}
+        <div className="border-t pt-4 border-gray-200 flex gap-4 items-center">
+          <span>Number of plates </span>
           <input
             type="number"
             defaultValue={cartItem.numberOfPlates}
@@ -65,6 +65,7 @@ export default function EditCartModal({
                 parseInt(e.target.value)
               )
             }
+            className="bg-white px-4 py-2 rounded"
           />
         </div>
       </div>
