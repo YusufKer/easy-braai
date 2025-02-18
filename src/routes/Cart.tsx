@@ -17,7 +17,7 @@ export default function Cart() {
       ))}
       <div className="flex justify-between items-center">
         <p>Final Total: {cartStore?.grandTotal}</p>
-        <Button handleClick={() => {}} type="success">
+        <Button handleClick={() => console.log(cartStore?.cart)} type="success">
           Checkout
         </Button>
       </div>

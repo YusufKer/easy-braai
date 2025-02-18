@@ -37,7 +37,6 @@ export default function EditCartModal({
     cartStore?.addItemToPlateViaCart(cartItem.id, plateItem);
   }
   // TODO: Add ability to adjust the number of guests
-  // TODO: Add functionality that deletes the cart item if the plate is empty
   return (
     <div
       onClick={closeModal}
@@ -55,6 +54,19 @@ export default function EditCartModal({
         </div>
         <PlateTable plate={cartItem.plate} handleDelete={handleDelete} />
         <AddToPlate addToPlate={addToPlate} />
+        <div>
+          Number of plates{" "}
+          <input
+            type="number"
+            defaultValue={cartItem.numberOfPlates}
+            onChange={(e) =>
+              cartStore?.changeNumberOfPlatesForCartItem(
+                cartItem.id,
+                parseInt(e.target.value)
+              )
+            }
+          />
+        </div>
       </div>
     </div>
   );

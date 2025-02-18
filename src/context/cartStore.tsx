@@ -7,6 +7,10 @@ type CartContextType = {
   addItemToPlateViaCart: (cartItemID: string, plateItem: PlateItem) => void;
   deleteItemFromPlateViaCart: (cartItemID: string, lineItemID: string) => void;
   deletePlateFromCart: (cartItemID: string) => void;
+  changeNumberOfPlatesForCartItem: (
+    CartItemID: string,
+    newNumberOfPlates: number
+  ) => void;
   grandTotal: number;
 };
 
@@ -32,12 +36,6 @@ export default function CartProvider({ children }: CartProviderProps) {
   }
 
   function deleteItemFromPlateViaCart(cartItemID: string, plateItemId: string) {
-    /*
-      first find the cart item
-      then find the plate item
-      then remove the plate item
-      then update the total
-    */
     setCart((prevCart) => {
       return prevCart.map((cartItem) => {
         if (cartItem.id === cartItemID) {
@@ -62,11 +60,6 @@ export default function CartProvider({ children }: CartProviderProps) {
   }
 
   function addItemToPlateViaCart(cartItemID: string, plateItem: PlateItem) {
-    /*
-      first find the cart item
-      then add the plate item to the plate
-      then update the total
-    */
     setCart((prevCart) => {
       return prevCart.map((cartItem) => {
         if (cartItem.id === cartItemID) {
@@ -82,6 +75,25 @@ export default function CartProvider({ children }: CartProviderProps) {
     });
   }
 
+  function changeNumberOfPlatesForCartItem(
+    cartItemID: string,
+    newNumberOfPlates: number
+  ) {
+    setCart((prevCart) => {
+      return prevCart.map((cartItem) => {
+        if (cartItem.id === cartItemID) {
+          const newCartItem = { ...cartItem };
+          newCartItem.numberOfPlates = newNumberOfPlates;
+          newCartItem.total =
+            newCartItem.plate.reduce((sum, item) => sum + item.price, 0) *
+            newNumberOfPlates;
+          return newCartItem;
+        }
+        return cartItem;
+      });
+    });
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -90,6 +102,7 @@ export default function CartProvider({ children }: CartProviderProps) {
         deleteItemFromPlateViaCart,
         deletePlateFromCart,
         addItemToPlateViaCart,
+        changeNumberOfPlatesForCartItem,
         grandTotal,
       }}
     >
