@@ -1,8 +1,8 @@
 import NavItem from "./NavLink.tsx";
-import { useCart } from "../context/cartContext.tsx";
+import { useCartStore } from "../context/cartStore.tsx";
 
 export default function Nav() {
-  const cartStore = useCart();
+  const cartStore = useCartStore();
   return (
     <div className="bg-[#A4B465]">
       <ul className="flex gap-4 container mx-auto p-4 w-full">

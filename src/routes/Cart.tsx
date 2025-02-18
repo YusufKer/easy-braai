@@ -1,10 +1,10 @@
-import { useCart } from "../context/cartContext";
+import { useCartStore } from "../context/cartStore";
 import CartItem from "../components/Cart/CartItem";
 import Button from "../components/Button";
 import Heading from "../components/Heading";
 
 export default function Cart() {
-  const cartStore = useCart();
+  const cartStore = useCartStore();
   return (
     <div className="space-y-4">
       <Heading headingType="main">Your cart</Heading>

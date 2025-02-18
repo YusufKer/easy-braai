@@ -1,6 +1,6 @@
 import { PlateItem } from "./PlateBuilder";
 import { ChangeEvent, useState } from "react";
-import { useCart } from "../../context/cartContext";
+import { useCartStore } from "../../context/cartStore";
 import Button from "../Button";
 
 type AddPlateToCartProps = {
@@ -12,7 +12,7 @@ export default function AddPlateToCart({
   plate,
   clearPlate,
 }: AddPlateToCartProps) {
-  const cartStore = useCart();
+  const cartStore = useCartStore();
   const [numberOfPlates, setNumberOfPlates] = useState(1);
   const [loading, setLoading] = useState(false);
 

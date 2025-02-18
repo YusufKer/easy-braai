@@ -17,8 +17,8 @@ export default function PlateTable({ plate, handleDelete }: PlateTableProps) {
           <div>
             {item.meat} ({item.cut}) ({item.flavour}) R{item.price}
           </div>
-          <Button type="danger" handleClick={() => handleDelete(item.id)}>
-            Delete
+          <Button type="danger" round handleClick={() => handleDelete(item.id)}>
+            <i className="fa-solid fa-trash text-xs"></i>
           </Button>
         </div>
       ))}
