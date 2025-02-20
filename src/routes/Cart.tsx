@@ -1,10 +1,12 @@
 import { useCartStore } from "../context/cartStore";
+import { useAuthStore } from "../context/authStore";
 import CartItem from "../components/Cart/CartItem";
 import Button from "../components/Button";
 import Heading from "../components/Heading";
 
 export default function Cart() {
   const cartStore = useCartStore();
+  const auth = useAuthStore();
 
   function handleCheckout() {
     const toSend = cartStore?.cart?.map((cartItem) => {
@@ -18,6 +20,11 @@ export default function Cart() {
     });
     console.log(toSend);
   }
+
+  if (!auth?.user) {
+    return <p>Please login to view your cart</p>;
+  }
+
   return (
     <div className="space-y-4">
       <Heading headingType="main">Your cart</Heading>

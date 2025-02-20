@@ -4,14 +4,14 @@ type ButtonProps = {
   disabled?: boolean;
   type: "info" | "danger" | "success" | "warning";
   children: React.ReactNode;
-  handleClick: () => void;
+  handleClick?: () => void;
 };
 
 export default function Button({
   round,
   type,
   children,
-  handleClick,
+  handleClick = () => {},
   disabled,
   classList = "",
 }: ButtonProps) {

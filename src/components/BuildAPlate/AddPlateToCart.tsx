@@ -1,6 +1,7 @@
 import { PlateItem } from "./PlateBuilder";
 import { ChangeEvent, useState } from "react";
 import { useCartStore } from "../../context/cartStore";
+import { useAuthStore } from "../../context/authStore";
 import Button from "../Button";
 
 type AddPlateToCartProps = {
@@ -13,6 +14,8 @@ export default function AddPlateToCart({
   clearPlate,
 }: AddPlateToCartProps) {
   const cartStore = useCartStore();
+  const auth = useAuthStore();
+
   const [numberOfPlates, setNumberOfPlates] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -62,14 +65,25 @@ export default function AddPlateToCart({
           {plate.reduce((acc, item) => acc + item.price, 0) * numberOfPlates}
         </h2>
       </div>
-      <Button
-        handleClick={addToCart}
-        type="success"
-        classList="h-min col-span-4 md:col-span-1"
-        disabled={loading}
-      >
-        Add To Cart
-      </Button>
+      {auth?.user ? (
+        <Button
+          handleClick={addToCart}
+          type="success"
+          classList="h-min col-span-4 md:col-span-1"
+          disabled={loading}
+        >
+          Add To Cart
+        </Button>
+      ) : (
+        // make this button open a modal to login as not to redirect the user, since they will lose their plate
+        <Button
+          type="success"
+          classList="h-min col-span-4 md:col-span-1 flex items-center justify-center gap-4"
+          disabled
+        >
+          Login to add to cart
+        </Button>
+      )}
     </div>
   );
 }
