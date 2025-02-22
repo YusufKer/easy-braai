@@ -2,11 +2,13 @@ import NavItem from "./NavLink.tsx";
 import { useCartStore } from "../context/cartStore.tsx";
 import { useAuthStore } from "../context/authStore.tsx";
 import { getAuth } from "firebase/auth";
+import { useModalStore } from "../context/modalStore.tsx";
 
 export default function Nav() {
   const cartStore = useCartStore();
   const authStore = useAuthStore();
   const auth = getAuth();
+  const modalStore = useModalStore();
 
   function handleLogout() {
     alert("LOG OUT!!!");
@@ -40,8 +42,18 @@ export default function Nav() {
           </>
         ) : (
           <>
-            <NavItem to="/signup">Signup</NavItem>
-            <NavItem to="/login">Login</NavItem>
+            <NavItem
+              type="button"
+              handleClick={() => modalStore?.openSignupModal()}
+            >
+              Signup
+            </NavItem>
+            <NavItem
+              type="button"
+              handleClick={() => modalStore?.openLoginModal()}
+            >
+              Login
+            </NavItem>
           </>
         )}
       </ul>
