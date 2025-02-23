@@ -17,8 +17,42 @@ export default function Cart() {
         return rest;
       });
       return newCartItem;
+
+      /*
+        TODO:
+
+        [ ] This function should send the cart data to a cloud function that will process the cart
+        
+        [ ] If successful, the function should:
+          [ ] Redirect to the payment page
+        
+        [ ] If unsuccessful, the function should:
+          [ ] Display an error message
+          [ ] Allow the user to try again
+      */
     });
-    console.log(toSend);
+    /*
+
+      TODO:
+      
+      [ ] Send the data to a cloud function that will process the cart
+      [ ] The function should validate the order information
+      [ ] The function should take the data and create an order
+
+      [ ] If successful, the function should:
+        [ ] return a success message "Order created" 
+        [ ] return an order number 
+        [ ] return a link to the order
+        [ ] send a link yo start the payment process
+
+      [ ] If unsuccessful, the function should:
+        [ ] return an error message "Order not created"
+        
+    */
+    console.log(
+      "This is the data that will get sent to my process cart function:",
+      { toSend }
+    );
   }
 
   if (!auth?.user) {

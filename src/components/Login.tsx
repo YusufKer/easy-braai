@@ -35,8 +35,9 @@ export default function Login() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
+        console.log(user.uid);
         modalStore?.closeLoginModal();
+
         // ...
       })
       .catch((error) => {
@@ -49,15 +50,15 @@ export default function Login() {
   return (
     <div
       onClick={() => modalStore?.closeLoginModal()}
-      className="bg-black/35 absolute top-0 left-0 w-full h-full flex items-center justify-center"
+      className="bg-black/35 fixed top-0 left-0 w-full h-full flex items-center justify-center"
     >
       <div
-        className="bg-white p-4 rounded"
+        className="bg-white p-4 rounded space-y-4"
         onClick={(e) => e.stopPropagation()}
       >
         <h1 className="text-2xl font-bold">Login</h1>
         <form onSubmit={handleSubmit} className="space-y-2">
-          <div className="grid gap-2 grid-cols-[140px_auto] items-center">
+          <div className="grid gap-2 md:grid-cols-[140px_auto] items-center">
             <label>Email</label>
             <input
               type="email"
@@ -65,7 +66,7 @@ export default function Login() {
               className="bg-white px-4 py-2 rounded"
             />
           </div>
-          <div className="grid gap-2 grid-cols-[140px_auto] items-center">
+          <div className="grid gap-2 md:grid-cols-[140px_auto] items-center">
             <label>Password</label>
             <input
               type="password"

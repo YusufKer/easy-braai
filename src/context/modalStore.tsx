@@ -8,16 +8,12 @@ type ModalContextType = {
   loginModalOpen: boolean;
   closeLoginModal: () => void;
   openLoginModal: () => void;
-  signupModalOpen: boolean;
-  openSignupModal: () => void;
-  closeSignupModal: () => void;
 };
 
 const ModalContext = createContext<ModalContextType | null>(null);
 
 export default function ModalProvider({ children }: ModalProviderProps) {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
-  const [signupModalOpen, setSignupModalOpen] = useState(false);
 
   function openLoginModal() {
     setLoginModalOpen(true);
@@ -27,22 +23,11 @@ export default function ModalProvider({ children }: ModalProviderProps) {
     setLoginModalOpen(false);
   }
 
-  function openSignupModal() {
-    setSignupModalOpen(true);
-  }
-
-  function closeSignupModal() {
-    setSignupModalOpen(false);
-  }
-
   useEffect(() => {
     console.log({
       loginModalOpen,
       openLoginModal,
       closeLoginModal,
-      signupModalOpen,
-      openSignupModal,
-      closeSignupModal,
     });
   }, []);
 
@@ -52,9 +37,6 @@ export default function ModalProvider({ children }: ModalProviderProps) {
         loginModalOpen,
         openLoginModal,
         closeLoginModal,
-        signupModalOpen,
-        openSignupModal,
-        closeSignupModal,
       }}
     >
       {children}

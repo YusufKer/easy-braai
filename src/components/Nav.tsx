@@ -42,12 +42,7 @@ export default function Nav() {
           </>
         ) : (
           <>
-            <NavItem
-              type="button"
-              handleClick={() => modalStore?.openSignupModal()}
-            >
-              Signup
-            </NavItem>
+            <NavItem to="/signup">Signup</NavItem>
             <NavItem
               type="button"
               handleClick={() => modalStore?.openLoginModal()}

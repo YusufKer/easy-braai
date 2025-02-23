@@ -43,7 +43,7 @@ export default function AddPlateToCart({
 
   return (
     <div className="grid gap-2 md:gap-4 md:grid-cols-5 leading-tight rounded overflow-hidden">
-      <div className="col-span-4 ">
+      <div className="col-span-4 text-center md:text-left space-y-2 md:space-y-0">
         <h2>
           Plate Total: R{plate.reduce((acc, item) => acc + item.price, 0)}
         </h2>
