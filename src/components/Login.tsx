@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Button from "../components/Button";
 import { useModalStore } from "../context/modalStore";
+import { useAuthStore } from "../context/authStore";
 
 export default function Login() {
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
@@ -9,10 +9,11 @@ export default function Login() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const auth = getAuth();
+  const authStore = useAuthStore();
+
   const modalStore = useModalStore();
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setValidationErrors([]);
     const errors = [];
@@ -27,24 +28,17 @@ export default function Login() {
       return;
     }
 
-    signInWithEmailAndPassword(
-      auth,
+    const success = await authStore?.login(
       emailRef.current?.value as string,
       passwordRef.current?.value as string
-    )
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user.uid);
-        modalStore?.closeLoginModal();
+    );
 
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage, errorCode);
-      });
+    if (!success) {
+      setValidationErrors(["Invalid email or password"]);
+      return;
+    }
+
+    modalStore?.closeLoginModal();
   }
 
   return (

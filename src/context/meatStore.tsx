@@ -1,6 +1,6 @@
 import { collection, getDocs } from "firebase/firestore";
 import { createContext, useState, useContext, useEffect } from "react";
-import { db } from "../firebase";
+import firebase from "../firebase";
 
 export type Meat = "chicken" | "beef" | "lamb" | "sausage";
 
@@ -40,13 +40,13 @@ export default function MeatProvider({ children }: MeatProviderProps) {
     async function fetchMeatData() {
       try {
         setLoading(true);
-        const querySnapshot = await getDocs(collection(db, "meats"));
+        const querySnapshot = await getDocs(collection(firebase.db, "meats"));
         const meatIds = querySnapshot.docs.map((doc) => doc.id as Meat);
 
         const meatOptionsPromises = meatIds.map(async (meat) => {
           const [cutsSnapshot, flavoursSnapshot] = await Promise.all([
-            getDocs(collection(db, `meats/${meat}/cuts`)),
-            getDocs(collection(db, `meats/${meat}/flavours`)),
+            getDocs(collection(firebase.db, `meats/${meat}/cuts`)),
+            getDocs(collection(firebase.db, `meats/${meat}/flavours`)),
           ]);
 
           return {

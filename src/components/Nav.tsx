@@ -1,18 +1,15 @@
 import NavItem from "./NavLink.tsx";
 import { useCartStore } from "../context/cartStore.tsx";
 import { useAuthStore } from "../context/authStore.tsx";
-import { getAuth } from "firebase/auth";
 import { useModalStore } from "../context/modalStore.tsx";
 
 export default function Nav() {
   const cartStore = useCartStore();
   const authStore = useAuthStore();
-  const auth = getAuth();
   const modalStore = useModalStore();
 
   function handleLogout() {
-    alert("LOG OUT!!!");
-    auth.signOut();
+    authStore?.logout();
   }
 
   return (

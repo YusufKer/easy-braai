@@ -1,9 +1,6 @@
 import { useRef, useState, useEffect } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router";
 import Button from "../components/Button";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase";
 import { useAuthStore } from "../context/authStore";
 
 export default function Signup() {
@@ -16,7 +13,6 @@ export default function Signup() {
   const surnameRef = useRef<HTMLInputElement>(null);
   const phoneNumberRef = useRef<HTMLInputElement>(null);
 
-  const auth = getAuth();
   const authStore = useAuthStore();
   const navigate = useNavigate();
 
@@ -40,27 +36,18 @@ export default function Signup() {
       setValidationErrors(errors);
       return;
     }
-    createUserWithEmailAndPassword(
-      auth,
+    const success = await authStore?.signup(
       emailRef.current?.value as string,
-      passwordRef.current?.value as string
-    )
-      .then(async (userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        await setDoc(doc(db, "users", user.uid), {
-          name: nameRef.current?.value,
-          surname: surnameRef.current?.value,
-          createdAt: new Date(),
-        });
-        navigate("/");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage, errorCode);
-        // ..
-      });
+      passwordRef.current?.value as string,
+      {
+        name: nameRef.current?.value as string,
+        surname: surnameRef.current?.value as string,
+      }
+    );
+
+    if (success) {
+      navigate("/");
+    }
   }
 
   useEffect(() => {
