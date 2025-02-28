@@ -1,5 +1,6 @@
 import { useCartStore } from "../context/cartStore";
 import { useAuthStore } from "../context/authStore";
+import { getFunctions, httpsCallable } from "firebase/functions";
 import CartItem from "../components/Cart/CartItem";
 import Button from "../components/Button";
 import Heading from "../components/Heading";
@@ -8,7 +9,10 @@ export default function Cart() {
   const cartStore = useCartStore();
   const auth = useAuthStore();
 
-  function handleCheckout() {
+  async function handleCheckout() {
+    const functions = getFunctions();
+    const createOrder = httpsCallable(functions, "createOrder");
+
     const toSend = cartStore?.cart?.map((cartItem) => {
       const { id, ...newCartItem } = { ...cartItem };
       // @ts-ignore
@@ -31,6 +35,8 @@ export default function Cart() {
           [ ] Allow the user to try again
       */
     });
+
+    console.log(await createOrder(toSend));
     /*
 
       TODO:
@@ -49,10 +55,6 @@ export default function Cart() {
         [ ] return an error message "Order not created"
         
     */
-    console.log(
-      "This is the data that will get sent to my process cart function:",
-      { toSend }
-    );
   }
 
   if (!auth?.user) {
