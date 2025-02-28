@@ -10,7 +10,6 @@ export default function Login() {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const authStore = useAuthStore();
-
   const modalStore = useModalStore();
 
   async function handleSubmit(e: React.FormEvent) {
