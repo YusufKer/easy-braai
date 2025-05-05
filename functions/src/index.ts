@@ -27,7 +27,6 @@ export const createOrder = onCall(async (request) => {
   const cuts: unknown[] = [];
   const flavours: unknown[] = [];
 
-  // Use for...of instead of forEach
   for (const cartItem of cart) {
     if (!cartItem.plate || cartItem.plate.length === 0) {
       throw new Error(
@@ -47,7 +46,6 @@ export const createOrder = onCall(async (request) => {
         `meats/${plateItem.meat}/flavours/${plateItem.flavourID}`
       );
 
-      // Wait for Firestore queries
       const cutSnap = await cutRef.get();
       const flavourSnap = await flavourRef.get();
 
@@ -83,28 +81,3 @@ type plateItem = {
   cutID: string;
   flavourID: string;
 };
-/*
-
-CART:
-
-[
-    {
-        "plate": [
-            {
-                "meat": "beef",
-                "cutID": "VZiHRL8JGhDAqj8D1Uns",
-                "flavourID": "h5MZU2pISfpopJGza0F6"
-            },
-            {
-                "meat": "lamb",
-                "cutID": "8J5foGbEUPsU2Os5N3j2",
-                "flavourID": "Ghbi01AyjqngvIX1Cx52"
-            }
-        ],
-        "numberOfPlates": 1,
-        "total": 30
-    }
-]
-
-
-*/

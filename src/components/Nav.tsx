@@ -33,6 +33,7 @@ export default function Nav() {
                 ) : null}
               </span>
             </NavItem>
+            <NavItem to="/profile">Profile</NavItem>
             <NavItem type="button" handleClick={handleLogout}>
               Logout
             </NavItem>

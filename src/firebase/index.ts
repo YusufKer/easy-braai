@@ -26,16 +26,6 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const functions = getFunctions(app);
 
-if (window.location.hostname === "localhost") {
-  console.log("🔥 Using Firebase Emulators");
-  // Connect to Firestore Emulator
-  connectFirestoreEmulator(db, "localhost", 8080);
-  // Connect to Auth Emulator
-  connectAuthEmulator(auth, "http://localhost:9099");
-  // Connect to Functions Emulator
-  connectFunctionsEmulator(functions, "localhost", 5001);
-}
-
 const firebase = {
   db,
   auth,

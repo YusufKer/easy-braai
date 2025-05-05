@@ -7,6 +7,7 @@ import Footer from "./components/Footer.tsx";
 import { useModalStore } from "./context/modalStore.tsx";
 import Login from "./components/Login.tsx";
 import Signup from "./routes/Signup.tsx";
+import Profile from "./routes/Profile.tsx";
 
 export default function App() {
   const modalStore = useModalStore();
@@ -20,6 +21,7 @@ export default function App() {
             <Route path="/build-your-plate" element={<BuildYourPlate />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
         <Footer />
