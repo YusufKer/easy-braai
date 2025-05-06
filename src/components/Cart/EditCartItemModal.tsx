@@ -36,7 +36,6 @@ export default function EditCartModal({
   function addToPlate(plateItem: PlateItem) {
     cartStore?.addItemToPlateViaCart(cartItem.id, plateItem);
   }
-  // TODO: Add ability to adjust the number of guests
   return (
     <div
       onClick={closeModal}

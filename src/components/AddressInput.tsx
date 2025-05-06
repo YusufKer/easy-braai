@@ -1,29 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 type AddressInputProps = {
-  update: (address: string) => void;
+  update: (addressObject: {
+    address: string;
+    lat: number;
+    lng: number;
+  }) => void;
 };
 
 export default function AddressInput({ update }: AddressInputProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [address, setAddress] = useState({
-    displayName: "",
-    formattedAddress: "",
-    location: { lat: 0, lng: 0 },
-  });
 
-  function checkIfDeliveryIsAvailable(lat: number, lng: number) {
-    // {
-    //     "lat": -34.007824899999996,
-    //     "lng": 18.463276399999998
-    // }
-    const businessLocation = {
-      lat: -34.007824899999996,
-      lng: 18.463276399999998,
-    };
-    console.log({ lat, lng });
-  }
-
+  // TODO: Look into making this better. Right now it pretty kak
   useEffect(() => {
     (async function () {
       (await google.maps.importLibrary("places")) as google.maps.PlacesLibrary;
@@ -44,16 +32,11 @@ export default function AddressInput({ update }: AddressInputProps) {
           await place.fetchFields({
             fields: ["displayName", "formattedAddress", "location"],
           });
-          setAddress({
-            displayName: place.displayName,
-            formattedAddress: place.formattedAddress,
-            location: place.location,
+          update({
+            address: place.formattedAddress,
+            lat: place.location.lat(),
+            lng: place.location.lng(),
           });
-          update(place.formattedAddress);
-          checkIfDeliveryIsAvailable(
-            place.location?.lat(),
-            place.location?.lng()
-          );
         }
       );
     })();

@@ -5,6 +5,7 @@ import { useAuthStore } from "../context/authStore";
 
 export default function Signup() {
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -18,6 +19,7 @@ export default function Signup() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setIsLoading(true);
     setValidationErrors([]);
     const errors = [];
     if (!emailRef.current?.value) {
@@ -51,6 +53,7 @@ export default function Signup() {
   }
 
   useEffect(() => {
+    console.log("I have mounted...");
     if (authStore?.user) {
       navigate("/");
     }
@@ -114,7 +117,9 @@ export default function Signup() {
             required
           />
         </div>
-        <Button type="success">Signup</Button>
+        <Button buttonType="submit" type="success" disabled={isLoading}>
+          Signup
+        </Button>
         {validationErrors.length > 0 && (
           <div className="bg-red-500 text-white p-2 rounded">
             {validationErrors.map((error) => (
