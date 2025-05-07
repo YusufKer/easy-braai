@@ -25,6 +25,7 @@ type AuthContextType = {
   ) => Promise<boolean>;
   logout: () => void;
   updateUserDetailsInFirestore: (newUserDetails: UserDetails) => Promise<void>;
+  getUpdatedUserDetailsFromFirestore: () => Promise<void>;
 };
 
 export type UserDetails = {
@@ -81,8 +82,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       }
     });
 
-    const response = await updateDoc(docRef, { ...changedProperties });
-    console.log(response);
+    await updateDoc(docRef, { ...changedProperties });
   }
 
   async function signup(
@@ -107,6 +107,12 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     return success;
   }
 
+  async function getUpdatedUserDetailsFromFirestore() {
+    if (user) {
+      await getUserDetailsFromFirestore(user?.uid as string);
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
@@ -128,6 +134,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         login,
         logout,
         updateUserDetailsInFirestore,
+        getUpdatedUserDetailsFromFirestore,
       }}
     >
       {children}

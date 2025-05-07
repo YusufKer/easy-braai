@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import AddressInput from "../AddressInput";
 import Button from "../Button";
 import { checkIfDeliveryIsAvailable } from "../../utils/calculations";
 import { useAuthStore, UserDetails } from "../../context/authStore";
+import EditAddressForm from "./EditAddressForm";
 
 export default function ProfileDetails() {
   const authStore = useAuthStore();
-  // TODO: User details should be part of global state and fetched from the server to prepopulate some of the fields
   const profileFormRef = useRef<HTMLFormElement>(null);
   const addressInputRef = useRef<HTMLInputElement>(null);
   const addressLatRef = useRef<HTMLInputElement>(null);
@@ -14,8 +13,8 @@ export default function ProfileDetails() {
   const [addressWithinRadius, setAddressWithingRadius] = useState<
     boolean | null
   >(null);
-
-  function updateAddress(addressObject: {
+  const [openEditAddressModal, setOpenEditAddressModal] = useState(false);
+  async function updateAddress(addressObject: {
     address: string;
     lat: number;
     lng: number;
@@ -23,9 +22,16 @@ export default function ProfileDetails() {
     addressInputRef.current!.value = addressObject.address;
     addressLatRef.current!.value = addressObject.lat.toString();
     addressLngRef.current!.value = addressObject.lng.toString();
-    setAddressWithingRadius(
-      checkIfDeliveryIsAvailable(addressObject.lat, addressObject.lng)
+    const weDeliver = checkIfDeliveryIsAvailable(
+      addressObject.lat,
+      addressObject.lng
     );
+    setAddressWithingRadius(weDeliver);
+    if (!weDeliver) return;
+    authStore?.updateUserDetailsInFirestore(addressObject);
+    await authStore?.getUpdatedUserDetailsFromFirestore();
+    setOpenEditAddressModal(false);
+    // now we need to get the updated address from the firestore
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -33,6 +39,10 @@ export default function ProfileDetails() {
     const formData = new FormData(profileFormRef.current!);
     const data = Object.fromEntries(formData.entries());
     authStore?.updateUserDetailsInFirestore(data as UserDetails);
+  }
+
+  function toggleEditAddressModal() {
+    setOpenEditAddressModal((prev) => !prev);
   }
 
   useEffect(() => {
@@ -100,7 +110,20 @@ export default function ProfileDetails() {
           {/* TODO: make it so that address input component allows for an initial value */}
           {/* TODO: look into restricting this to locations in south africa, specifically inside the western cape */}
           {/* TODO: looks like a better option would be to have a separate function that updates only the address. This way we won't need to struggle trying to get places API to work with our system */}
-          <AddressInput update={updateAddress} />
+          <div className="flex gap-2">
+            <div className="w-full px-4 py-2 rounded bg-white">
+              {authStore?.userDetails?.address}
+            </div>
+            <Button
+              handleClick={toggleEditAddressModal}
+              type="info"
+              classList="h-min"
+            >
+              {openEditAddressModal ? "Cancel" : "Edit"}
+            </Button>
+          </div>
+          {openEditAddressModal && <EditAddressForm update={updateAddress} />}
+
           <input ref={addressInputRef} type="text" name="address" hidden />
           <input ref={addressLatRef} type="text" name="lat" hidden />
           <input ref={addressLngRef} type="text" name="lng" hidden />
