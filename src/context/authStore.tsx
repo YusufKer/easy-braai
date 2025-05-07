@@ -24,7 +24,9 @@ type AuthContextType = {
     userDetails: UserDetails
   ) => Promise<boolean>;
   logout: () => void;
-  updateUserDetailsInFirestore: (newUserDetails: UserDetails) => Promise<void>;
+  updateUserDetailsInFirestore: (
+    newUserDetails: Partial<UserDetails>
+  ) => Promise<void>;
   getUpdatedUserDetailsFromFirestore: () => Promise<void>;
 };
 
@@ -70,7 +72,9 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  async function updateUserDetailsInFirestore(newDetails: UserDetails) {
+  async function updateUserDetailsInFirestore(
+    newDetails: Partial<UserDetails>
+  ) {
     if (!user) return;
     if (!userDetails) return;
     const docRef = doc(firebase.db, "users", user.uid);

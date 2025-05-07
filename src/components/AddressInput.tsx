@@ -28,6 +28,7 @@ export default function AddressInput({ update }: AddressInputProps) {
       containerRef.current.appendChild(placeAutocomplete);
       placeAutocomplete.addEventListener(
         "gmp-select",
+        // @ts-expect-error
         async ({ placePrediction }) => {
           const place = placePrediction.toPlace();
           await place.fetchFields({

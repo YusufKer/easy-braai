@@ -90,6 +90,7 @@ export default function Signup() {
             required
           />
         </div>
+        {/* TODO: Either remove phone number from the sign up form or, add phone number to firestore and get it from there. problem is that it would then be living in two places and when a user updates one, we'd have to always make sure to update both */}
         <div className="grid gap-2 md:grid-cols-[140px_auto] items-center">
           <label>Phone number</label>
           <input
