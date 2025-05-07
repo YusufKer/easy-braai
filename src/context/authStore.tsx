@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
   User,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import firebase from "../firebase";
 
 type AuthProviderProps = {
@@ -16,6 +16,7 @@ type AuthProviderProps = {
 type AuthContextType = {
   user: User | null;
   loading: boolean;
+  userDetails: UserDetails | null;
   login: (email: string, password: string) => Promise<boolean>;
   signup: (
     email: string,
@@ -23,11 +24,14 @@ type AuthContextType = {
     userDetails: UserDetails
   ) => Promise<boolean>;
   logout: () => void;
+  updateUserDetailsInFirestore: (newUserDetails: UserDetails) => Promise<void>;
 };
 
-type UserDetails = {
+export type UserDetails = {
   name: string;
   surname: string;
+  cell?: string;
+  address?: string;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -37,6 +41,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
+  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
 
   async function login(email: string, password: string) {
     const success = await signInWithEmailAndPassword(auth, email, password)
@@ -52,6 +57,32 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
   function logout() {
     auth.signOut();
+  }
+
+  async function getUserDetailsFromFirestore(uid: string) {
+    const docRef = doc(firebase.db, "users", uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setUserDetails(() => docSnap.data() as UserDetails);
+    } else {
+      throw new Error("No such document!");
+    }
+  }
+
+  async function updateUserDetailsInFirestore(newDetails: UserDetails) {
+    if (!user) return;
+    if (!userDetails) return;
+    const docRef = doc(firebase.db, "users", user.uid);
+    // compare new details to the current details and only update if they are different
+    const changedProperties: Partial<UserDetails> = {};
+    Object.entries(newDetails).forEach(([key, value]) => {
+      if (userDetails[key as keyof UserDetails] !== value) {
+        changedProperties[key as keyof UserDetails] = value;
+      }
+    });
+
+    const response = await updateDoc(docRef, { ...changedProperties });
+    console.log(response);
   }
 
   async function signup(
@@ -70,29 +101,33 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         });
         return true;
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((_err: unknown) => {
         return false;
       });
     return success;
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
+      if (user) {
+        await getUserDetailsFromFirestore(user?.uid as string);
+      }
       setLoading(false);
     });
     return () => unsubscribe();
-  }, []);
+  }, [user, auth]);
 
   return (
     <AuthContext.Provider
       value={{
         user,
         loading,
+        userDetails,
         signup,
         login,
         logout,
+        updateUserDetailsInFirestore,
       }}
     >
       {children}

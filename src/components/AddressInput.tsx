@@ -5,6 +5,7 @@ type AddressInputProps = {
     address: string;
     lat: number;
     lng: number;
+    initialValue?: string;
   }) => void;
 };
 
@@ -18,7 +19,7 @@ export default function AddressInput({ update }: AddressInputProps) {
       const placeAutocomplete = new google.maps.places.PlaceAutocompleteElement(
         {
           types: ["address"],
-          componentRestrictions: { country: "za" },
+          componentRestrictions: { country: ["za"] },
         }
       );
       if (!containerRef.current) return;

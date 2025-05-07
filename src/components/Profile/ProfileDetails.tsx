@@ -1,8 +1,8 @@
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AddressInput from "../AddressInput";
 import Button from "../Button";
 import { checkIfDeliveryIsAvailable } from "../../utils/calculations";
-import { useAuthStore } from "../../context/authStore";
+import { useAuthStore, UserDetails } from "../../context/authStore";
 
 export default function ProfileDetails() {
   const authStore = useAuthStore();
@@ -32,7 +32,7 @@ export default function ProfileDetails() {
     e.preventDefault();
     const formData = new FormData(profileFormRef.current!);
     const data = Object.fromEntries(formData.entries());
-    console.log("Form submitted", data);
+    authStore?.updateUserDetailsInFirestore(data as UserDetails);
   }
 
   useEffect(() => {
@@ -40,8 +40,15 @@ export default function ProfileDetails() {
     // TODO: Add email verification before allowing users to order
     if (!authStore?.user) return;
     if (!profileFormRef.current) return;
-    console.log(authStore?.user);
+    // TODO: consider some error handling here
+    if (!authStore.userDetails) return;
     profileFormRef.current.email.value = authStore?.user?.email;
+    (
+      profileFormRef.current.elements.namedItem("name") as HTMLInputElement
+    ).value = authStore.userDetails.name;
+    profileFormRef.current.surname.value = authStore.userDetails.surname;
+    profileFormRef.current.cell.value = authStore.userDetails.cell;
+    profileFormRef.current.address.value = authStore.userDetails.address;
   });
 
   return (
@@ -79,16 +86,20 @@ export default function ProfileDetails() {
         </label>
         <label htmlFor="cell" className="block">
           <span>Cell</span>
+          {/* TODO: Look into getting the cel input to work as input type "tel" */}
           <input
             name="cell"
             required
             id="cell"
             className="w-full px-4 py-2 rounded bg-white"
-            type="tel"
+            type="text"
           />
         </label>
         <label htmlFor="address" className="block">
           <span>Address</span>
+          {/* TODO: make it so that address input component allows for an initial value */}
+          {/* TODO: look into restricting this to locations in south africa, specifically inside the western cape */}
+          {/* TODO: looks like a better option would be to have a separate function that updates only the address. This way we won't need to struggle trying to get places API to work with our system */}
           <AddressInput update={updateAddress} />
           <input ref={addressInputRef} type="text" name="address" hidden />
           <input ref={addressLatRef} type="text" name="lat" hidden />

@@ -5,6 +5,7 @@ import { useAuthStore } from "../context/authStore";
 
 export default function Login() {
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -27,17 +28,23 @@ export default function Login() {
       return;
     }
 
-    const success = await authStore?.login(
-      emailRef.current?.value as string,
-      passwordRef.current?.value as string
-    );
+    try {
+      setIsLoading(true);
+      setValidationErrors([]);
+      const success = await authStore?.login(
+        emailRef.current?.value as string,
+        passwordRef.current?.value as string
+      );
 
-    if (!success) {
-      setValidationErrors(["Invalid email or password"]);
-      return;
+      if (!success) {
+        throw new Error("Invalid email or password");
+      }
+      modalStore?.closeLoginModal();
+    } catch (error) {
+      console.error("Login error:", error);
+    } finally {
+      setIsLoading(false);
     }
-
-    modalStore?.closeLoginModal();
   }
 
   return (
@@ -67,7 +74,9 @@ export default function Login() {
               className="bg-white px-4 py-2 rounded"
             />
           </div>
-          <Button type="success">Login</Button>
+          <Button disabled={isLoading} buttonType="submit" type="success">
+            Login
+          </Button>
           {validationErrors.length > 0 && (
             <div className="bg-red-500 text-white p-2 rounded">
               {validationErrors.map((error) => (
