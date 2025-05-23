@@ -35,6 +35,8 @@ export type UserDetails = {
   surname: string;
   cell?: string;
   address?: string;
+  lat: number;
+  lng: number;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);

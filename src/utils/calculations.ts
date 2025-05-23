@@ -31,7 +31,7 @@ export function getDistanceFromBusinessLocation(lat: number, lng: number) {
 
 export function checkIfDeliveryIsAvailable(lat: number, lng: number) {
   const distance = getDistanceFromBusinessLocation(lat, lng);
-  // : THIS SHOULD COME FROM A CONFIG FILE
+  // TODO: THIS SHOULD COME FROM A CONFIG FILE
   const maximumDistance = 15; // Maximum delivery distance in km
   if (distance > maximumDistance) {
     return false;

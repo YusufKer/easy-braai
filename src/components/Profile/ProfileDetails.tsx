@@ -111,7 +111,7 @@ export default function ProfileDetails() {
           {/* TODO: look into restricting this to locations in south africa, specifically inside the western cape */}
           {/* TODO: looks like a better option would be to have a separate function that updates only the address. This way we won't need to struggle trying to get places API to work with our system */}
           <div className="flex gap-2">
-            <div className="w-full px-4 py-2 rounded bg-white">
+            <div className="w-full px-4 py-2 rounded border border-white">
               {authStore?.userDetails?.address}
             </div>
             <Button
