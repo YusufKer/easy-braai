@@ -41,3 +41,18 @@ export interface LoginResponse {
   user: User;
   expiresIn: number;
 }
+
+export type MeatOptions = {
+  [key: string]: {
+    cuts: {
+      name: string;
+      price: number;
+      id: string;
+    }[];
+    flavours: {
+      name: string;
+      price: number;
+      id: string;
+    }[];
+  };
+};

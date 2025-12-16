@@ -1,4 +1,5 @@
 import { authRepository } from "@/lib/api/repositories/auth-repository";
+import { proteinRepository } from "./repositories/protein-repository";
 
 // Export types
 export type {
@@ -14,3 +15,5 @@ export type {
 export const login = authRepository.login.bind(authRepository);
 export const logout = authRepository.logout.bind(authRepository);
 export const register = authRepository.register.bind(authRepository);
+
+export const getProteins = proteinRepository.get.bind(proteinRepository);

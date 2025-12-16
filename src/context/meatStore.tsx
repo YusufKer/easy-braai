@@ -1,28 +1,11 @@
-import { collection, getDocs } from "firebase/firestore";
+import { getProteins } from "@/lib/api";
+import { MeatOptions } from "@/lib/api/types";
 import { createContext, useState, useContext, useEffect } from "react";
-import firebase from "../firebase";
-
-export type Meat = "chicken" | "beef" | "lamb" | "sausage";
-
-type MeatOptions = {
-  [key in Meat]: {
-    cuts: {
-      name: string;
-      price: number;
-      id: string;
-    }[];
-    flavours: {
-      name: string;
-      price: number;
-      id: string;
-    }[];
-  };
-};
 
 type MeatContextType = {
-  meatOptions: Partial<MeatOptions>;
+  meatOptions: MeatOptions | null;
   loading: boolean;
-  meats: Meat[];
+  meats: string[];
 };
 
 type MeatProviderProps = {
@@ -32,51 +15,21 @@ type MeatProviderProps = {
 const MeatContext = createContext<MeatContextType | null>(null);
 
 export default function MeatProvider({ children }: MeatProviderProps) {
-  const [meatOptions, setMeatOptions] = useState<Partial<MeatOptions>>({});
+  const [meatOptions, setMeatOptions] = useState<MeatOptions | null>(null);
   const [loading, setLoading] = useState(false);
-  const [meats, setMeats] = useState<Meat[]>([]);
+  const [meats, setMeats] = useState<string[]>([]);
+
+  useEffect(() => {
+    setMeats(meatOptions ? Object.keys(meatOptions) : []);
+  }, [meatOptions]);
 
   useEffect(() => {
     async function fetchMeatData() {
       try {
         setLoading(true);
-        const querySnapshot = await getDocs(collection(firebase.db, "meats"));
-        const meatIds = querySnapshot.docs.map((doc) => doc.id as Meat);
-
-        const meatOptionsPromises = meatIds.map(async (meat) => {
-          const [cutsSnapshot, flavoursSnapshot] = await Promise.all([
-            getDocs(collection(firebase.db, `meats/${meat}/cuts`)),
-            getDocs(collection(firebase.db, `meats/${meat}/flavours`)),
-          ]);
-
-          return {
-            meat,
-            data: {
-              cuts: cutsSnapshot.docs.map((doc) => ({
-                ...doc.data(),
-                id: doc.id,
-              })),
-              flavours: flavoursSnapshot.docs.map((doc) => ({
-                ...doc.data(),
-                id: doc.id,
-              })),
-            },
-          };
-        });
-
-        const results = await Promise.all(meatOptionsPromises);
-        const options = results.reduce(
-          (acc, { meat, data }) => ({
-            ...acc,
-            [meat]: data,
-          }),
-          {}
-        );
-
-        console.log(options);
-        setMeatOptions(options);
-        setMeats(meatIds);
-      } catch (error) {
+        const protein = await getProteins();
+        setMeatOptions(protein as unknown as MeatOptions);
+      } catch (error: unknown) {
         console.error("Error fetching meat data:", error);
         // Consider adding error state and UI handling
       } finally {
@@ -99,4 +52,5 @@ export default function MeatProvider({ children }: MeatProviderProps) {
   );
 }
 
+// Todo move this to a separate file
 export const useMeatStore = () => useContext(MeatContext);
