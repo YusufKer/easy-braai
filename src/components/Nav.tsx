@@ -1,6 +1,6 @@
 import NavItem from "./NavLink.tsx";
 import { useCartStore } from "../context/cartStore.tsx";
-import { useAuthStore } from "../context/authStore.tsx";
+import { useAuthStore } from "@/hooks/useAuthStore";
 import { useModalStore } from "../context/modalStore.tsx";
 
 export default function Nav() {

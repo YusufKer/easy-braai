@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "../Button";
 import { checkIfDeliveryIsAvailable } from "../../utils/calculations";
-import { useAuthStore, UserDetails } from "../../context/authStore";
+import { useAuthStore } from "@/hooks/useAuthStore";
+import type { UserDetails } from "@/context/authStore";
 import EditAddressForm from "./EditAddressForm";
 
 export default function ProfileDetails() {

@@ -1,4 +1,4 @@
-import { useAuthStore } from "../context/authStore";
+import { useAuthStore } from "@/hooks/useAuthStore";
 import CheckoutStepOne from "../components/Checkout/CheckoutStepOne";
 
 export default function Checkout() {

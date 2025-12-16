@@ -1,5 +1,5 @@
 import { useCartStore } from "../context/cartStore";
-import { useAuthStore } from "../context/authStore";
+import { useAuthStore } from "@/hooks/useAuthStore";
 
 import CartItem from "../components/Cart/CartItem";
 import Button from "../components/Button";

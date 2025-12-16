@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Button from "../components/Button";
 import { useModalStore } from "../context/modalStore";
-import { useAuthStore } from "../context/authStore";
+import { useAuthStore } from "@/hooks/useAuthStore";
 
 export default function Login() {
   const [validationErrors, setValidationErrors] = useState<string[]>([]);

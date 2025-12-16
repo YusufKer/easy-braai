@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAuthStore } from "../context/authStore.tsx";
+import { useAuthStore } from "@/hooks/useAuthStore";
 import { useNavigate } from "react-router";
 import ProfileDetails from "../components/Profile/ProfileDetails.tsx";
 

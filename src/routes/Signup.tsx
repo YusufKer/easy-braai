@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import Button from "../components/Button";
-import { useAuthStore } from "../context/authStore";
+import { useAuthStore } from "@/hooks/useAuthStore";
 
 export default function Signup() {
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
