@@ -1,6 +1,6 @@
 import { getProteins } from "@/lib/api";
 import { MeatOptions } from "@/lib/api/types";
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 type MeatContextType = {
   meatOptions: MeatOptions | null;
@@ -12,7 +12,7 @@ type MeatProviderProps = {
   children: React.ReactNode;
 };
 
-const MeatContext = createContext<MeatContextType | null>(null);
+export const MeatContext = createContext<MeatContextType | null>(null);
 
 export default function MeatProvider({ children }: MeatProviderProps) {
   const [meatOptions, setMeatOptions] = useState<MeatOptions | null>(null);
@@ -51,6 +51,3 @@ export default function MeatProvider({ children }: MeatProviderProps) {
     </MeatContext.Provider>
   );
 }
-
-// Todo move this to a separate file
-export const useMeatStore = () => useContext(MeatContext);

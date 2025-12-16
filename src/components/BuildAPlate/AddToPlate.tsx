@@ -1,7 +1,7 @@
 import { ChangeEvent, useState, useRef } from "react";
 import { PlateItem } from "./PlateBuilder";
 import Button from "../Button";
-import { Meat, useMeatStore } from "../../context/meatStore";
+import { useMeatStore } from "@/hooks/useMeatStore";
 
 type AddToPlateProps = {
   addToPlate: (plateItem: PlateItem) => void;
@@ -9,22 +9,22 @@ type AddToPlateProps = {
 
 export default function AddToPlate({ addToPlate }: AddToPlateProps) {
   const meatStore = useMeatStore();
-  const [selectedMeat, setSelectedMeat] = useState<Meat>("beef");
+  const [selectedMeat, setSelectedMeat] = useState<string>("beef");
 
   const cutRef = useRef<HTMLSelectElement>(null);
   const flavourRef = useRef<HTMLSelectElement>(null);
 
   function handleChangeMeat(e: ChangeEvent<HTMLSelectElement>) {
-    setSelectedMeat(e.target?.value as Meat);
+    setSelectedMeat(e.target?.value as string);
   }
 
   function handleClick() {
-    if (!meatStore?.meatOptions?.[selectedMeat as Meat]) return;
-    const cutPrice = meatStore?.meatOptions[selectedMeat as Meat]?.cuts.find(
+    if (!meatStore?.meatOptions?.[selectedMeat as string]) return;
+    const cutPrice = meatStore?.meatOptions[selectedMeat as string]?.cuts.find(
       (cut) => cut.name === cutRef.current?.value
     )?.price;
     const flavourPrice = meatStore?.meatOptions[
-      selectedMeat as Meat
+      selectedMeat as string
     ]?.flavours.find(
       (flavour) => flavour.name === flavourRef.current?.value
     )?.price;
@@ -72,14 +72,14 @@ export default function AddToPlate({ addToPlate }: AddToPlateProps) {
           ))}
         </select>
         <select ref={cutRef} className="w-full px-4 py-2 rounded bg-white">
-          {meatStore?.meatOptions?.[selectedMeat as Meat]?.cuts.map((cut) => (
+          {meatStore?.meatOptions?.[selectedMeat as string]?.cuts.map((cut) => (
             <option value={cut.name} key={cut.name} data-id={cut.id}>
               {cut.name} (R{cut.price})
             </option>
           ))}
         </select>
         <select ref={flavourRef} className="w-full px-4 py-2 rounded bg-white">
-          {meatStore?.meatOptions?.[selectedMeat as Meat]?.flavours.map(
+          {meatStore?.meatOptions?.[selectedMeat as string]?.flavours.map(
             (flavour) => (
               <option
                 value={flavour.name}
