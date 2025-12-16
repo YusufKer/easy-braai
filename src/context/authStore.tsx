@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import {
   login as apiLogin,
   logout as apiLogout,
@@ -39,12 +39,12 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       setLoading(true);
       const response = await apiLogin({ email, password });
       console.log(response);
-      
+
       // Store tokens and user in localStorage
       localStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, response.accessToken);
       localStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, response.refreshToken);
       localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(response.user));
-      
+
       setUser(response.user);
       return true;
     } catch (e: unknown) {
@@ -78,7 +78,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     // Restore user session from localStorage on mount
     const storedUser = localStorage.getItem(STORAGE_KEYS.USER);
     const accessToken = localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
-    
+
     if (storedUser && accessToken) {
       try {
         const parsedUser = JSON.parse(storedUser) as User;
