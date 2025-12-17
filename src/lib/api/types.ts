@@ -19,6 +19,36 @@ export interface User {
   updated_at: string;
 }
 
+export type UserDetails = {
+  id: number;
+  email: string;
+  role: "user" | "admin";
+  is_active: 1 | 0;
+  created_at: string;
+  updated_at: string;
+  details: {
+    first_name: string;
+    last_name: string;
+    phone_number: string;
+    created_at: string;
+    updated_at: string;
+  };
+  addresses: [
+    {
+      address_type: string;
+      line_1: string;
+      line_2: string;
+      city: string;
+      state: string;
+      postal_code: string;
+      country_code: string;
+      is_default: 1 | 0;
+      created_at: string;
+      updated_at: string;
+    }
+  ];
+};
+
 export interface RegisterUserData {
   email: string;
   password: string;

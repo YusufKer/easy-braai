@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
-import { User } from "@/lib/api";
+import { UserDetails } from "@/lib/api";
 import { useAuthStore } from "@/hooks/useAuthStore";
 
 export default function ProfileDetails() {
   const authStore = useAuthStore();
-  const user: User | null = authStore?.user as User;
+  const userDetails: UserDetails | null = authStore?.userDetails as UserDetails;
   const profileFormRef = useRef<HTMLFormElement>(null);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -15,9 +15,15 @@ export default function ProfileDetails() {
   }
 
   useEffect(() => {
-    console.log(user);
-    if (!profileFormRef.current) return;
-    profileFormRef.current.email.value = user?.email;
+    if (!profileFormRef.current || !userDetails) return;
+
+    profileFormRef.current["name"].value =
+      userDetails?.details?.first_name || "";
+    profileFormRef.current["surname"].value =
+      userDetails?.details?.last_name || "";
+    profileFormRef.current["cell"].value =
+      userDetails?.details?.phone_number || "";
+    profileFormRef.current["email"].value = userDetails?.email || "";
   });
 
   return (

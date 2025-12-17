@@ -1,9 +1,11 @@
-import { createContext, useState, useEffect, use } from "react";
+import { createContext, useState, useEffect } from "react";
 import {
   login as apiLogin,
   logout as apiLogout,
   register as apiRegister,
-  User,
+  getUserDetails as apiGetUserDetails,
+  type User,
+  type UserDetails,
 } from "@/lib/api";
 import { STORAGE_KEYS } from "@/lib/api/constants";
 
@@ -13,40 +15,11 @@ type AuthProviderProps = {
 
 type AuthContextType = {
   user: User | null;
+  userDetails: UserDetails | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   signup: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
-};
-
-export type UserDetails = {
-  id: number;
-  email: string;
-  role: "user" | "admin";
-  is_active: 1 | 0;
-  created_at: string;
-  updated_at: string;
-  details: {
-    first_name: string;
-    last_name: string;
-    phone_number: string;
-    created_at: string;
-    updated_at: string;
-  };
-  addresses: [
-    {
-      address_type: string;
-      line_1: string;
-      line_2: string;
-      city: string;
-      state: string;
-      postal_code: string;
-      country_code: string;
-      is_default: 1 | 0;
-      created_at: string;
-      updated_at: string;
-    }
-  ];
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -117,12 +90,23 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     if (!user) return;
+    async function fetchUserDetails() {
+      try {
+        const response = await apiGetUserDetails(user?.id as number);
+        setUserDetails(response);
+      } catch (e) {
+        console.error("Failed to fetch user details:", e);
+      }
+    }
+
+    fetchUserDetails();
   }, [user]);
 
   return (
     <AuthContext.Provider
       value={{
         user: user,
+        userDetails: userDetails,
         loading,
         signup,
         login,

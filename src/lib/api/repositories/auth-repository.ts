@@ -1,12 +1,13 @@
-import { AUTH_URL } from "@/config/env";
+import { API_URL, AUTH_URL } from "@/config/env";
 import { STORAGE_KEYS } from "@/lib/api/constants";
-
+import { authenticatedFetch } from "@/lib/api/client";
 import type {
   ApiResponse,
   RegisterUserData,
   RegisterResponse,
   LoginUserData,
   LoginResponse,
+  UserDetails,
 } from "@/lib/api/types";
 
 class AuthRepository {
@@ -79,6 +80,15 @@ class AuthRepository {
       localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN);
       localStorage.removeItem(STORAGE_KEYS.USER);
     }
+  }
+
+  async getUserDetails(userId: number): Promise<UserDetails> {
+    const response = await authenticatedFetch(`${API_URL}/users/${userId}`, {
+      method: "GET",
+    });
+
+    const json = await response.json();
+    return json.data;
   }
 }
 
