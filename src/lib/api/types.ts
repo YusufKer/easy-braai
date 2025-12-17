@@ -74,6 +74,7 @@ export interface LoginResponse {
 
 export type MeatOptions = {
   [key: string]: {
+    id: string;
     cuts: {
       name: string;
       price: number;

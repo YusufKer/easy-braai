@@ -1,6 +1,6 @@
 import { ChangeEvent, useState, useRef } from "react";
-import { PlateItem } from "./PlateBuilder";
-import Button from "../Button";
+import { PlateItem } from "@/components/BuildAPlate/PlateBuilder";
+import Button from "@/components/Button";
 import { useMeatStore } from "@/hooks/useMeatStore";
 
 type AddToPlateProps = {
@@ -44,12 +44,12 @@ export default function AddToPlate({ addToPlate }: AddToPlateProps) {
     const meat: PlateItem = {
       id: crypto.randomUUID(),
       meat: selectedMeat as string,
+      meatID: meatStore?.meatOptions?.[selectedMeat as string]?.id as string,
       cut: cutRef.current?.value as string,
       cutID: cutID as string,
       flavour: flavourRef.current?.value as string,
       flavourID: flavourID as string,
-      // @ts-expect-error
-      price: parseInt(cutPrice) + parseInt(flavourPrice),
+      price: parseInt(String(cutPrice)) + parseInt(String(flavourPrice)),
     };
 
     addToPlate({ ...meat });

@@ -1,8 +1,8 @@
-import { PlateItem } from "./PlateBuilder";
 import { ChangeEvent, useState } from "react";
-import { useCartStore } from "../../context/cartStore";
+import { PlateItem } from "@/components/BuildAPlate/PlateBuilder";
+import { useCartStore } from "@/context/cartStore";
 import { useAuthStore } from "@/hooks/useAuthStore";
-import Button from "../Button";
+import Button from "@/components/Button";
 
 type AddPlateToCartProps = {
   plate: PlateItem[];

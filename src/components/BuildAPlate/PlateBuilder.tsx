@@ -1,15 +1,16 @@
 import { useState } from "react";
-import AddToPlate from "./AddToPlate.tsx";
-import PlateTable from "./PlateTable.tsx";
-import AddPlateToCart from "./AddPlateToCart.tsx";
+import AddToPlate from "@/components/BuildAPlate/AddToPlate.tsx";
+import PlateTable from "@/components/BuildAPlate/PlateTable.tsx";
+import AddPlateToCart from "@/components/BuildAPlate/AddPlateToCart.tsx";
 
 export type PlateItem = {
   id: string;
+  meatID: string;
   meat: string;
-  cut: string;
   cutID: string;
-  flavour: string;
+  cut: string;
   flavourID: string;
+  flavour: string;
   price: number;
 };
 
