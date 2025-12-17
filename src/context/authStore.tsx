@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, use } from "react";
 import {
   login as apiLogin,
   logout as apiLogout,
@@ -20,18 +20,40 @@ type AuthContextType = {
 };
 
 export type UserDetails = {
-  name: string;
-  surname: string;
-  cell?: string;
-  address?: string;
-  lat: number;
-  lng: number;
+  id: number;
+  email: string;
+  role: "user" | "admin";
+  is_active: 1 | 0;
+  created_at: string;
+  updated_at: string;
+  details: {
+    first_name: string;
+    last_name: string;
+    phone_number: string;
+    created_at: string;
+    updated_at: string;
+  };
+  addresses: [
+    {
+      address_type: string;
+      line_1: string;
+      line_2: string;
+      city: string;
+      state: string;
+      postal_code: string;
+      country_code: string;
+      is_default: 1 | 0;
+      created_at: string;
+      updated_at: string;
+    }
+  ];
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export default function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
+  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [loading, setLoading] = useState(false);
 
   async function login(email: string, password: string) {
@@ -92,6 +114,10 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+  }, [user]);
 
   return (
     <AuthContext.Provider

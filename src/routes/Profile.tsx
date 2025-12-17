@@ -13,5 +13,5 @@ export default function Profile() {
     }
   }, [authStore?.user, navigate]);
 
-  return <ProfileDetails />;
+  return authStore?.user && <ProfileDetails />;
 }
